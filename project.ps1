@@ -7,7 +7,9 @@ param (
     [switch]$build,
     [switch]$clean,
     [switch]$flash,
-    [switch]$submodules
+    [switch]$submodules,
+    [switch]$lint,
+    [switch]$format
 )
 
 # --- Project Configuration ---
@@ -50,6 +52,31 @@ function Invoke-Submodules {
     git submodule update --init --recursive
 }
 
+function Invoke-Lint {
+    Write-Host "--- Linting with clang-tidy ---"
+    if (-not (Test-Path $BuildDir)) {
+        # We need to configure cmake first to create the build files
+        Invoke-Build
+    }
+    
+    Push-Location $BuildDir
+    cmake --build . --target lint
+    Pop-Location
+}
+
+function Invoke-Format {
+    Write-Host "--- Formatting C/C++ Files ---"
+    $files = Get-ChildItem -Path "src", "include" -Recurse -Include "*.c", "*.h"
+    if ($null -eq $files) {
+        Write-Host "No source files found to format."
+        return
+    }
+    foreach ($file in $files) {
+        Write-Host "Formatting $($file.FullName)..."
+        clang-format.exe -i -style=file $file.FullName
+    }
+}
+
 # --- Main Logic ---
 if ($build) {
     Invoke-Build
@@ -62,6 +89,12 @@ elseif ($flash) {
 }
 elseif ($submodules) {
     Invoke-Submodules
+}
+elseif ($lint) {
+    Invoke-Lint
+}
+elseif ($format) {
+    Invoke-Format
 }
 else {
     Get-Help $MyInvocation.MyCommand.Definition -Full

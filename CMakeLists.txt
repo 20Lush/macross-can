@@ -47,7 +47,6 @@ target_compile_definitions(cores PUBLIC
     LAYOUT_US_ENGLISH
 )
 
-# Flags must be in a list for target_compile_options
 set(CPU_FLAGS -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard -mlong-calls)
 target_compile_options(cores PUBLIC ${CPU_FLAGS})
 
@@ -84,3 +83,31 @@ add_custom_command(TARGET ${CMAKE_PROJECT_NAME}.elf POST_BUILD
     COMMAND ${CMAKE_OBJCOPY} -O binary ${CMAKE_PROJECT_NAME}.elf ${CMAKE_PROJECT_NAME}.bin
     COMMENT "Generating .hex and .bin files"
 )
+
+# --- Linter Target ---
+find_program(CLANG_TIDY_EXE clang-tidy)
+if(CLANG_TIDY_EXE)
+    file(GLOB_RECURSE APP_SOURCES "src/*.c")
+    add_custom_target(lint
+        COMMAND ${CLANG_TIDY_EXE}
+        ${APP_SOURCES}
+        --
+        -I${CMAKE_CURRENT_SOURCE_DIR}/include
+        -I${CMAKE_CURRENT_SOURCE_DIR}/lib/cores/teensy4
+        -I${CMAKE_CURRENT_SOURCE_DIR}/lib/CMSIS-DSP/Include
+        -I${CMAKE_CURRENT_SOURCE_DIR}/lib/CMSIS_5/CMSIS/Core/Include
+        -D__IMXRT1062__
+        -DARDUINO=10813
+        -DTEENSYDUINO=159
+        -DARDUINO_TEENSY40
+        -DF_CPU=600000000
+        -DUSB_SERIAL
+        -DLAYOUT_US_ENGLISH
+        -target arm-none-eabi
+        -mcpu=cortex-m7
+        COMMENT "Running clang-tidy..."
+    )
+    message(STATUS "clang-tidy found. 'lint' target is available.")
+else()
+    message(WARNING "clang-tidy not found. 'lint' target is not available.")
+endif()

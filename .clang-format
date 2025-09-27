@@ -1,0 +1,5 @@
+BasedOnStyle: Google
+Language: Cpp
+IndentWidth: 3
+UseTab: Never
+BreakBeforeBraces: Allman
