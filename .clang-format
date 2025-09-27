@@ -9,3 +9,4 @@ IncludeCategories:
     Priority:        1
   - Regex:           '<.*>'
     Priority:        2
+LineEnding:      LF
