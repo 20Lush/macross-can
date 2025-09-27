@@ -8,7 +8,7 @@ on:
 
 jobs:
   lint:
-    name: "Lint Check"
+    name: "Lint"
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4

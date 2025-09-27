@@ -8,7 +8,7 @@ on:
 
 jobs:
   format:
-    name: "Format Check"
+    name: "Format"
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
