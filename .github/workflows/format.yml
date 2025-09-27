@@ -20,9 +20,12 @@ jobs:
       - name: "Check for formatting changes"
         shell: pwsh
         run: |
-          if ((git diff --exit-code) -eq 0) {
-            Write-Host "Code is formatted correctly."
+          git diff --quiet
+          if ($?) {
+            Write-Host "✅ All files are correctly formatted. Git state is clean."
           } else {
-            Write-Host "::error::Code is not formatted. Please run './project.ps1 -format' locally and commit the changes."
+            Write-Host "🚨 Formatting changes detected!"
+            Write-Host "Please run './project.ps1 -format' locally and commit the changes."
+            git diff # Show the diff for visibility in the CI log
             exit 1
           }
