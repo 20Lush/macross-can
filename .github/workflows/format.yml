@@ -12,6 +12,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          autocrlf: false
       - name: "Run clang-format"
         shell: pwsh
         run: ./project.ps1 -format
