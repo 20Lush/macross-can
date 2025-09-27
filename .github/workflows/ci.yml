@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  format:
+    name: "Format Check"
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: "Run clang-format"
+        shell: pwsh
+        run: ./project.ps1 -format
+      - name: "Check for formatting changes"
+        shell: pwsh
+        run: |
+          if ((git diff --exit-code) -eq 0) {
+            Write-Host "Code is formatted correctly."
+          } else {
+            Write-Host "::error::Code is not formatted. Please run './project.ps1 -format' locally and commit the changes."
+            exit 1
+          }
+
+  lint:
+    name: "Lint Check"
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: "Run clang-tidy"
+        shell: pwsh
+        run: ./project.ps1 -lint
