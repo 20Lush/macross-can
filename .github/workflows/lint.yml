@@ -15,9 +15,9 @@ jobs:
         with:
           autocrlf: false
       - name: "Install ARM Toolchain"
-        uses: arm-toolchain/setup-arm-toolchain@v2.0
+        uses: fiam/arm-none-eabi-gcc@v1
         with:
-          version: "13.2.Rel1"
+          release: "10.3-2021.10" # Using a specific, stable version
       - name: "Run clang-tidy"
         shell: pwsh
         run: ./project.ps1 -lint
