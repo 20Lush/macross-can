@@ -1,5 +1,6 @@
 #include <stdint.h>
 
+#include "main.h"
 #include "usb_serial.h"
 
 int main(void)
