@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "name": "Macross-CAN",
+            "includePath": [
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/lib/cores/teensy4",
+                "${workspaceFolder}/lib/CMSIS-DSP/Include",
+                "${workspaceFolder}/lib/CMSIS_5/CMSIS/Core/Include"
+            ],
+            "defines": [
+                "__IMXRT1062__",
+                "ARDUINO=10813",
+                "TEENSYDUINO=159",
+                "ARDUINO_TEENSY40",
+                "F_CPU=600000000",
+                "USB_SERIAL",
+                "LAYOUT_US_ENGLISH",
+                "ARM_MATH_CM7"
+            ],
+            "compilerPath": "F:/dev/system-deps/arm-none-eabi/bin/arm-none-eabi-gcc.exe",
+            "cStandard": "c99",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "windows-gcc-arm"
+        }
+    ],
+    "version": 4
+}

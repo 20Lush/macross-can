@@ -1,0 +1,36 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "powershell -ExecutionPolicy Bypass -File .\\project.ps1 -clean",
+            "problemMatcher": []
+        },
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "powershell -ExecutionPolicy Bypass -File .\\project.ps1 -build",
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "clean build",
+            "dependsOrder": "sequence",
+            "dependsOn": ["clean", "build"],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "flash",
+            "type": "shell",
+            "command": "powershell -ExecutionPolicy Bypass -File .\\project.ps1 -flash",
+            "problemMatcher": []
+        }
+    ]
+}

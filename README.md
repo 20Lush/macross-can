@@ -52,6 +52,19 @@ All project tasks are managed through the `project.ps1` PowerShell script.
 
 You can combine commands, for example, to do a clean build: `.\project.ps1 -clean; .\project.ps1 -build`
 
+## VSCode Integration
+
+This repository includes a `.vscode/tasks.json` file that integrates the project's build and flash commands directly into the VSCode interface.
+
+To use these tasks, open the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P`) and select "Tasks: Run Task". You will see the following options:
+
+*   **build**: Compiles the firmware.
+*   **clean**: Deletes the build directory.
+*   **clean build**: Performs a clean build. This is the default build task and can be run with the shortcut `Ctrl+Shift+B` or `Cmd+Shift+B`.
+*   **flash**: Flashes the compiled firmware to the Teensy.
+
+The build tasks are configured with a `$gcc` problem matcher, which will parse compiler errors and warnings and display them in the "Problems" panel in VSCode.
+
 ## Project Structure
 
 ```
