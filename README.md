@@ -1,5 +1,8 @@
 # Macross-CAN: Teensy 4.0 CAN-FD to USB-Serial Dongle
 
+[![Format Check](https://github.com/20Lush/macross-can/actions/workflows/ci.yml/badge.svg)](https://github.com/20Lush/macross-can/actions/workflows/ci.yml)
+[![Lint Check](https://github.com/20Lush/macross-can/actions/workflows/ci.yml/badge.svg)](https://github.com/20Lush/macross-can/actions/workflows/ci.yml)
+
 This repository contains the firmware for a hardware prototype that uses a Teensy 4.0 to create a high-speed CAN-FD to USB-Serial dongle.
 
 The project is written in C99 and uses CMake for the build system. It is designed to be developed without the Arduino library, relying instead on low-level libraries and direct hardware abstraction.
