@@ -17,7 +17,7 @@ jobs:
       - name: "Install ARM Toolchain"
         uses: fiam/arm-none-eabi-gcc@v1
         with:
-          release: "10.3-2021.10" # Using a specific, stable version
+          release: "10-2020-q4" # Using a specific, stable version
       - name: "Run clang-tidy"
         shell: pwsh
         run: ./project.ps1 -lint
