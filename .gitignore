@@ -1,0 +1,14 @@
+# Build artifacts
+build/
+*.bin
+*.hex
+*.elf
+
+# IDE files
+.vscode/
+
+# Cline files
+.clinerules/
+
+# Local dependencies
+tools/macross-teensy-deps/local/
