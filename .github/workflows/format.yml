@@ -22,5 +22,7 @@ jobs:
             Write-Host "Code is formatted correctly."
           } else {
             Write-Host "::error::Code is not formatted. Please run './project.ps1 -format' locally and commit the changes."
+            Write-Host "Detected changes:"
+            git diff
             exit 1
           }
