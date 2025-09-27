@@ -1,0 +1,17 @@
+name: Lint Check
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  lint:
+    name: "Lint Check"
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: "Run clang-tidy"
+        shell: pwsh
+        run: ./project.ps1 -lint
