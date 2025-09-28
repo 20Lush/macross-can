@@ -2,6 +2,7 @@
 
 [![Format](https://github.com/20Lush/macross-can/actions/workflows/format.yml/badge.svg)](https://github.com/20Lush/macross-can/actions/workflows/format.yml)
 [![Lint](https://github.com/20Lush/macross-can/actions/workflows/lint.yml/badge.svg)](https://github.com/20Lush/macross-can/actions/workflows/lint.yml)
+[![Build](https://github.com/20Lush/macross-can/actions/workflows/build.yml/badge.svg)](https://github.com/20Lush/macross-can/actions/workflows/build.yml)
 
 This repository contains the firmware for a hardware prototype that uses a Teensy 4.0 to create a high-speed CAN-FD to USB-Serial dongle.
 

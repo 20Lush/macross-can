@@ -1,0 +1,28 @@
+name: Build Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+
+    - name: Install ARM GCC Toolchain
+      uses: arm-software/setup-arm-toolchain@v2
+      with:
+        # Corresponds to 13.2.Rel1, a recent version.
+        # See https://github.com/arm-software/setup-arm-toolchain/releases
+        release: '2023.10'
+
+    - name: Build project
+      shell: pwsh
+      run: ./project.ps1 -build
