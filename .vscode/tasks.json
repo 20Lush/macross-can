@@ -2,34 +2,43 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "clean",
+            "label": "Build",
             "type": "shell",
-            "command": "powershell -ExecutionPolicy Bypass -File .\\project.ps1 -clean",
-            "problemMatcher": []
-        },
-        {
-            "label": "build",
-            "type": "shell",
-            "command": "powershell -ExecutionPolicy Bypass -File .\\project.ps1 -build",
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": "build"
-        },
-        {
-            "label": "clean build",
-            "dependsOrder": "sequence",
-            "dependsOn": ["clean", "build"],
-            "problemMatcher": [],
+            "command": "powershell -ExecutionPolicy Bypass -File ./project.ps1 -build",
             "group": {
                 "kind": "build",
                 "isDefault": true
-            }
+            },
+            "problemMatcher": []
         },
         {
-            "label": "flash",
+            "label": "Clean",
             "type": "shell",
-            "command": "powershell -ExecutionPolicy Bypass -File .\\project.ps1 -flash",
+            "command": "powershell -ExecutionPolicy Bypass -File ./project.ps1 -clean",
+            "problemMatcher": []
+        },
+        {
+            "label": "Flash",
+            "type": "shell",
+            "command": "powershell -ExecutionPolicy Bypass -File ./project.ps1 -flash",
+            "problemMatcher": []
+        },
+        {
+            "label": "Update Submodules",
+            "type": "shell",
+            "command": "powershell -ExecutionPolicy Bypass -File ./project.ps1 -submodules",
+            "problemMatcher": []
+        },
+        {
+            "label": "Lint",
+            "type": "shell",
+            "command": "powershell -ExecutionPolicy Bypass -File ./project.ps1 -lint",
+            "problemMatcher": []
+        },
+        {
+            "label": "Format",
+            "type": "shell",
+            "command": "powershell -ExecutionPolicy Bypass -File ./project.ps1 -format",
             "problemMatcher": []
         }
     ]
