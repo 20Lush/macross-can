@@ -1,14 +1,20 @@
 #include "main.h"
-#include "usb_serial.h"
-#include <stdint.h>
+#include <Arduino.h>
 
-int main(void)
+const int pin_led = LED_BUILTIN;
+
+// This function runs once at startup.
+void setup()
 {
-   // --- Main application loop ---
-   while (1)
-   {
-      // TODO: Implement CAN-FD to USB-Serial logic
-      usb_serial_write("Hello, world!\r\n", 15);
-   }
-   return 0;
+	pinMode(pin_led, OUTPUT);
+   digitalWriteFast(pin_led, HIGH);
+}
+
+// This function runs repeatedly after setup().
+void loop()
+{
+	digitalWriteFast(pin_led, HIGH);
+	delay(500);
+	digitalWriteFast(pin_led, LOW);
+	delay(500);
 }

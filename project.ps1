@@ -15,7 +15,7 @@ param (
 # --- Project Configuration ---
 $ProjectName = "macross-can"
 $BuildDir = "build"
-$Mcu = "imxrt1062"
+$Mcu = "TEENSY40"
 
 # --- Helper Functions ---
 function Invoke-Build {
@@ -44,7 +44,7 @@ function Invoke-Flash {
         Write-Error "Hex file not found. Please build the project first."
         return
     }
-    teensy_loader_cli.exe -v -w --mcu=$Mcu $hexFile
+    teensy_loader_cli.exe --mcu=TEENSY40 -v -w $hexFile
 }
 
 function Invoke-Submodules {

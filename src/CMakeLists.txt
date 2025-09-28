@@ -11,6 +11,7 @@ target_compile_options(main_obj PRIVATE ${CPU_FLAGS})
 target_include_directories(main_obj PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/../include
     ${CMAKE_CURRENT_SOURCE_DIR}/../lib/cores/teensy4
+    ${CMAKE_CURRENT_SOURCE_DIR}/../lib/cores/teensy4/util
 )
 
 target_compile_definitions(main_obj PRIVATE

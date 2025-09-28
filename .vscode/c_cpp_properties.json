@@ -5,6 +5,7 @@
             "includePath": [
                 "${workspaceFolder}/include",
                 "${workspaceFolder}/lib/cores/teensy4",
+                "${workspaceFolder}/lib/cores/teensy4/util",
                 "${workspaceFolder}/lib/CMSIS-DSP/Include",
                 "${workspaceFolder}/lib/CMSIS_5/CMSIS/Core/Include"
             ],

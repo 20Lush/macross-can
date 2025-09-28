@@ -1,16 +1,16 @@
 # --- Project Definition ---
 cmake_minimum_required(VERSION 3.15)
+
+# --- Toolchain Configuration ---
+# This MUST be set before the project() command is called.
+set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/cmake/arm-none-eabi-gcc.cmake)
+
 project(macross-can VERSION 1.0.0 LANGUAGES C CXX)
 
 # --- Set C Standard ---
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS ON)
-
-# --- Toolchain Configuration ---
-set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/cmake/arm-none-eabi-gcc.cmake)
-
-get_filename_component(CMAKE_C_COMPILER_DIR ${CMAKE_C_COMPILER} DIRECTORY)
 
 # --- CMSIS DSP ---
 file(GLOB_RECURSE CMSIS_DSP_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/lib/CMSIS-DSP/Source/*.c)
@@ -24,20 +24,26 @@ target_include_directories(CMSIS-DSP PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/CMSIS-DSP/PrivateInclude
 )
 
-# --- Cores Library ---
-set(CORES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/cores/teensy4)
-file(GLOB CORES_C_SOURCES "${CORES_DIR}/*.c")
-file(GLOB CORES_CXX_SOURCES "${CORES_DIR}/*.cpp")
-file(GLOB CORES_ASM_SOURCES "${CORES_DIR}/*.S")
-list(FILTER CORES_CXX_SOURCES EXCLUDE REGEX "main\\.cpp$")
+# --- Cores Library Sources ---
+set(CORES_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/cores)
+set(TEENSY4_DIR ${CORES_BASE_DIR}/teensy4)
+file(GLOB TEENSY4_C_SOURCES "${TEENSY4_DIR}/*.c")
+file(GLOB TEENSY4_CXX_SOURCES "${TEENSY4_DIR}/*.cpp")
+file(GLOB TEENSY4_ASM_SOURCES "${TEENSY4_DIR}/*.S")
 
-add_library(cores STATIC
-    ${CORES_C_SOURCES}
-    ${CORES_CXX_SOURCES}
-    ${CORES_ASM_SOURCES}
+# --- Add Subdirectories ---
+add_subdirectory(src)
+
+# --- Executable Definition ---
+add_executable(${CMAKE_PROJECT_NAME}.elf
+    $<TARGET_OBJECTS:main_obj>
+    ${TEENSY4_C_SOURCES}
+    ${TEENSY4_CXX_SOURCES}
+    ${TEENSY4_ASM_SOURCES}
 )
 
-target_compile_definitions(cores PUBLIC
+# --- Target-specific Compile Definitions ---
+target_compile_definitions(${CMAKE_PROJECT_NAME}.elf PRIVATE
     __IMXRT1062__
     ARDUINO=10813
     TEENSYDUINO=159
@@ -47,25 +53,21 @@ target_compile_definitions(cores PUBLIC
     LAYOUT_US_ENGLISH
 )
 
-set(CPU_FLAGS -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard -mlong-calls)
-target_compile_options(cores PUBLIC ${CPU_FLAGS})
-
-set_source_files_properties(${CORES_CXX_SOURCES} PROPERTIES
+# --- Target-specific Compile Options ---
+# The core CPU flags are set in the toolchain file. We only add target-specific ones here.
+target_compile_options(${CMAKE_PROJECT_NAME}.elf PRIVATE -mlong-calls)
+set_source_files_properties(${TEENSY4_CXX_SOURCES} PROPERTIES
     COMPILE_FLAGS "-std=gnu++17 -fno-exceptions -fpermissive -fno-rtti -Wno-error=narrowing"
 )
 
-target_include_directories(cores PUBLIC ${CORES_DIR})
-
-# --- Add Subdirectories ---
-add_subdirectory(src)
-
-# --- Executable Definition ---
-add_executable(${CMAKE_PROJECT_NAME}.elf
-    $<TARGET_OBJECTS:main_obj>
+# --- Target-specific Include Directories ---
+target_include_directories(${CMAKE_PROJECT_NAME}.elf PRIVATE
+    ${TEENSY4_DIR}
+    ${CORES_BASE_DIR}/teensy
 )
 
-target_link_libraries(${CMAKE_PROJECT_NAME}.elf PRIVATE -Wl,--whole-archive cores -Wl,--no-whole-archive CMSIS-DSP c gcc m)
-target_include_directories(${CMAKE_PROJECT_NAME}.elf PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib/cores/teensy4)
+# --- Target-specific Link Libraries ---
+target_link_libraries(${CMAKE_PROJECT_NAME}.elf PRIVATE CMSIS-DSP c gcc m stdc++)
 
 # --- Linker Settings ---
 target_link_options(${CMAKE_PROJECT_NAME}.elf PRIVATE
