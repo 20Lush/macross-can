@@ -30,6 +30,7 @@ set(TEENSY4_DIR ${CORES_BASE_DIR}/teensy4)
 file(GLOB TEENSY4_C_SOURCES "${TEENSY4_DIR}/*.c")
 file(GLOB TEENSY4_CXX_SOURCES "${TEENSY4_DIR}/*.cpp")
 file(GLOB TEENSY4_ASM_SOURCES "${TEENSY4_DIR}/*.S")
+list(REMOVE_ITEM TEENSY4_CXX_SOURCES "${TEENSY4_DIR}/main.cpp")
 
 # --- Add Subdirectories ---
 add_subdirectory(src)
