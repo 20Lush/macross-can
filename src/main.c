@@ -20,5 +20,5 @@ int main(void)
       delay(DELAY_INTERVAL);
    }
 
-   return 0; // Should not reach here
+   return 0;  // Should not reach here
 }
