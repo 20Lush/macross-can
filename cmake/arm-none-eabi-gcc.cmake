@@ -5,6 +5,9 @@ set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_PROCESSOR arm)
 
 # --- Compilers ---
+# Skip the compiler test. It will fail when cross-compiling
+set(CMAKE_C_COMPILER_WORKS 1)
+set(CMAKE_CXX_COMPILER_WORKS 1)
 find_program(CMAKE_C_COMPILER arm-none-eabi-gcc)
 find_program(CMAKE_CXX_COMPILER arm-none-eabi-g++)
 find_program(CMAKE_ASM_COMPILER arm-none-eabi-gcc)
@@ -20,7 +23,7 @@ set(CMAKE_CXX_FLAGS "${CPU_FLAGS} -Wall -Wextra -g3 -O2" CACHE INTERNAL "C++ Com
 set(CMAKE_ASM_FLAGS "${CPU_FLAGS} -x assembler-with-cpp -g3" CACHE INTERNAL "ASM Compiler Flags")
 
 # --- Linker Flags ---
-set(CMAKE_EXE_LINKER_FLAGS "-Wl,--gc-sections -nostdlib" CACHE INTERNAL "Linker Flags")
+set(CMAKE_EXE_LINKER_FLAGS "-Wl,--gc-sections" CACHE INTERNAL "Linker Flags")
 
 # --- Search Paths ---
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)

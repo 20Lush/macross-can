@@ -55,7 +55,12 @@ target_compile_definitions(${CMAKE_PROJECT_NAME}.elf PRIVATE
 
 # --- Target-specific Compile Options ---
 # The core CPU flags are set in the toolchain file. We only add target-specific ones here.
-target_compile_options(${CMAKE_PROJECT_NAME}.elf PRIVATE -mlong-calls)
+target_compile_options(${CMAKE_PROJECT_NAME}.elf PRIVATE
+    -O2
+    -mlong-calls
+    -ffunction-sections
+    -fdata-sections
+)
 set_source_files_properties(${TEENSY4_CXX_SOURCES} PROPERTIES
     COMPILE_FLAGS "-std=gnu++17 -fno-exceptions -fpermissive -fno-rtti -Wno-error=narrowing"
 )
@@ -67,16 +72,13 @@ target_include_directories(${CMAKE_PROJECT_NAME}.elf PRIVATE
 )
 
 # --- Target-specific Link Libraries ---
-target_link_libraries(${CMAKE_PROJECT_NAME}.elf PRIVATE CMSIS-DSP c gcc m stdc++)
+target_link_libraries(${CMAKE_PROJECT_NAME}.elf PRIVATE CMSIS-DSP m stdc++)
 
 # --- Linker Settings ---
 target_link_options(${CMAKE_PROJECT_NAME}.elf PRIVATE
     -T${CMAKE_CURRENT_SOURCE_DIR}/lib/cores/teensy4/imxrt1062.ld
-    -Wl,--gc-sections
-    -Wl,--defsym=__dso_handle=0
-    -Wl,--defsym=_init=0
-    -nostdlib
-    -nostartfiles
+    --specs=nano.specs
+    -Wl,--gc-sections,--relax
 )
 
 # --- Generate Hex and Bin files ---

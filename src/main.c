@@ -14,7 +14,7 @@ void setup()
 void loop()
 {
 	digitalWriteFast(pin_led, HIGH);
-	delay(500);
+	delay(100);
 	digitalWriteFast(pin_led, LOW);
-	delay(500);
+	delay(100);
 }
